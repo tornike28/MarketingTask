@@ -1,4 +1,5 @@
 ﻿using Domain.Aggregates.DistributorAggregate.IRepository;
+using Domain.Aggregates.ProductAggregate.IRepository;
 using Domain.Aggregates.TransactionAggregate.IRepository;
 using Infrastructure.Db;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ namespace Application.Shared
         protected ApplicationDbContext ApplicationDbContext;
         protected IDistributorRepository DistributorRepository;
         protected ITransactionRepository TransactionReposiotry;
+        protected IProductRepository ProductRepository;
 
         protected string? UserId;
         protected string? Username;
@@ -30,6 +32,7 @@ namespace Application.Shared
 
             DistributorRepository = serviceProvider.GetService<IDistributorRepository>();
             TransactionReposiotry = serviceProvider.GetService<ITransactionRepository>();
+            ProductRepository = serviceProvider.GetService<IProductRepository>();
         }
 
 

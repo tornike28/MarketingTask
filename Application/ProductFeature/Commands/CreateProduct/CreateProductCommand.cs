@@ -1,4 +1,5 @@
 ﻿using Application.Shared;
+using Domain.Aggregates.ProductAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,17 @@ namespace Application.ProductFeature.Commands.CreateProduct
 {
     public class CreateProductCommand : Command
     {
+        public CreateProductRequest Product { get; set; }
+
         public override async Task<CommandExecutionResult> ExecuteAsync()
         {
-            throw new NotImplementedException();
+            var product = new Product(
+                                          Product.Name,
+                                          Product.Code,
+                                          Product.Price);
+
+
+            return await ProductRepository.CreateProduct(product);
         }
     }
 }

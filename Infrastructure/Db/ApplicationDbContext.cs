@@ -17,15 +17,17 @@ namespace Infrastructure.Db
         {
             _configuration = configuration;
         }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new DistributorTypeConfiguration());
             builder.ApplyConfiguration(new TransactionTypeConfiguration());
+            builder.ApplyConfiguration(new ProductTypeConfiguration());
 
         }
-        //public virtual DbSet<AnonymousUserFile> AnonymousUserFiles { get; set; }
+        
 
     }
 }

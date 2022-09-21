@@ -3,7 +3,6 @@ using Autofac.Extensions.DependencyInjection;
 using Infrastructure.Db;
 using MarketingTask;
 using MarketingTask.AutofacModules;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 

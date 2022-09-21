@@ -7,7 +7,7 @@ using Utility;
 namespace MarketingTask.Controllers
 {
     [ApiController]
-    [Route("[controller][action]")]
+    [Route("[controller]/[action]")]
     public class DistributorController : ControllerBase
     {
         private readonly ICommandExecutor _commandExecutor;
@@ -21,7 +21,7 @@ namespace MarketingTask.Controllers
         }
 
         [HttpPost]
-        public async Task<CommandExecutionResult> CreateUser([FromBody] CreateDistributorCommand command) =>
+        public async Task<CommandExecutionResult> CreateDistributor([FromBody] CreateDistributorCommand command) =>
             await _commandExecutor.Execute(command);
 
         [HttpGet]

@@ -1,16 +1,16 @@
 ﻿using Domain.Aggregates.DistributorAggregate;
 using Domain.Aggregates.ProductAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Utility;
 
 namespace Domain.Aggregates.TransactionAggregate
 {
     public class Transaction : AggregateRoot
     {
+        public Transaction()
+        {
+
+        }
+
         public Transaction(
             Distributor distributor,
             DateTime saleDate,

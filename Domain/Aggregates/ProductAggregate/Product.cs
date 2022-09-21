@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Aggregates.TransactionAggregate;
 using Utility;
 
 namespace Domain.Aggregates.ProductAggregate
 {
     public class Product : AggregateRoot
     {
+        public Product()
+        {
+
+        }
+
         public Product(
             string name,
             string code,
@@ -22,5 +23,6 @@ namespace Domain.Aggregates.ProductAggregate
         public string Name { get; private set; }
         public string Code { get; private set; }
         public decimal Price { get; private set; }
+        public virtual ICollection<Transaction> Transactions { get; private set; }
     }
 }
