@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DistributorFeature.DistributorCommands.CreateDistributor.Dtos
+namespace Application.Features.DistributorFeature.DistributorCommands.CreateDistributor.Dtos
 {
     public class AddressDto
     {

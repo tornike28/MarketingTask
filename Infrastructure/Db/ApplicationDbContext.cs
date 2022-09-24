@@ -1,5 +1,7 @@
 ﻿using Infrastructure.Db.Configurations;
+using Infrastructure.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -9,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Db
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IUnitOfWorkMediator
     {
-        private readonly IConfiguration _configuration;
+        private IDbContextTransaction _currentTransaction;
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
              IConfiguration configuration) : base(options)
         {
-            _configuration = configuration;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -27,7 +29,49 @@ namespace Infrastructure.Db
             builder.ApplyConfiguration(new ProductTypeConfiguration());
 
         }
-        
 
+
+        public async Task BeginTransactionAsync(CancellationToken cancellationToken)
+        {
+            _currentTransaction ??= await Database.BeginTransactionAsync(cancellationToken);
+        }
+
+        public async Task CommitTransactionAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                await SaveChangesAsync(cancellationToken);
+                if (_currentTransaction != null) await _currentTransaction.CommitAsync(cancellationToken);
+            }
+            catch
+            {
+                await RollbackTransactionAsync(cancellationToken);
+                throw;
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    _currentTransaction.Dispose();
+                    _currentTransaction = null;
+                }
+            }
+        }
+
+        public async Task RollbackTransactionAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (_currentTransaction != null) await _currentTransaction?.RollbackAsync(cancellationToken);
+            }
+            finally
+            {
+                if (_currentTransaction != null)
+                {
+                    _currentTransaction.Dispose();
+                    _currentTransaction = null;
+                }
+            }
+        }
     }
 }

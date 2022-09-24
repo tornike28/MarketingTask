@@ -1,14 +1,11 @@
-﻿using Application.DistributorFeature.DistributorCommands.CreateDistributor.Dtos;
+﻿using Application.Features.DistributorFeature.DistributorCommands.CreateDistributor.Dtos;
 using Domain.Aggregates.DistributorAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MediatR;
+using Utility;
 
-namespace Application.DistributorFeature.DistributorCommands.CreateDistributor
+namespace Application.Features.DistributorFeature.DistributorCommands.CreateDistributor
 {
-    public class CreateDistributorRequest
+    public class CreateDistributorCommand : IRequest<CommandExecutionResult>
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;

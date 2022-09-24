@@ -17,7 +17,7 @@ namespace Infrastructure.Repositories
 
             await Save(distributor);
 
-            return new CommandExecutionResult() { ErrorMessage = "654" };
+            return new CommandExecutionResult() { Success = true };
         }
     }
 }

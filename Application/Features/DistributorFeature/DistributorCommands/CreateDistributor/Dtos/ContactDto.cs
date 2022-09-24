@@ -1,7 +1,7 @@
 ﻿using Domain.Aggregates.DistributorAggregate;
 using Domain.Aggregates.DistributorAggregate.ValueObjects;
 
-namespace Application.DistributorFeature.DistributorCommands.CreateDistributor.Dtos
+namespace Application.Features.DistributorFeature.DistributorCommands.CreateDistributor.Dtos
 {
     public class ContactDto
     {

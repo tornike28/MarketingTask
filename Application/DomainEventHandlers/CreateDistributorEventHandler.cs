@@ -7,7 +7,7 @@ namespace Application.DomainEventHandlers
     {
         public Task Handle(CreateDistributorEvent @event, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }

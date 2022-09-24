@@ -1,4 +1,4 @@
-﻿using FluentValidation.Attributes;
+﻿//using FluentValidation.Attributes;
 using FluentValidation.Results;
 using Infrastructure.Db;
 using Microsoft.Extensions.Configuration;
@@ -72,13 +72,13 @@ namespace Application.Shared
         }
         public ValidationResult Validate<T>(Query<T> execution) where T : class
         {
-            var validatorAttribute = execution.GetType().GetCustomAttribute<ValidatorAttribute>(true);
-            if (validatorAttribute != null)
-            {
-                var instance = (dynamic)Activator.CreateInstance(validatorAttribute.ValidatorType);
-                var modelState = instance.Validate((dynamic)execution);
-                return modelState;
-            }
+            //var validatorAttribute = execution.GetType().GetCustomAttribute<ValidatorAttribute>(true);
+            //if (validatorAttribute != null)
+            //{
+            //    var instance = (dynamic)Activator.CreateInstance(validatorAttribute.ValidatorType);
+            //    var modelState = instance.Validate((dynamic)execution);
+            //    return modelState;
+            //}
 
             return new ValidationResult();
         }

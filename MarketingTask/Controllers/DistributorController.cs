@@ -1,6 +1,7 @@
-﻿using Application.DistributorFeature.DistributorCommands.CreateDistributor;
-using Application.DistributorFeature.DistributorQueries;
+﻿using Application.Features.DistributorFeature.DistributorCommands.CreateDistributor;
+using Application.Features.DistributorFeature.DistributorQueries;
 using Application.Shared;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Utility;
 
@@ -10,23 +11,23 @@ namespace MarketingTask.Controllers
     [Route("[controller]/[action]")]
     public class DistributorController : ControllerBase
     {
-        private readonly ICommandExecutor _commandExecutor;
+        private readonly IMediator _mediator;
         private readonly IQueryExecutor _queryExecutor;
         public DistributorController(
-            ICommandExecutor commandExecutor,
+            IMediator mediator,
             IQueryExecutor queryExecutor)
         {
-            _commandExecutor = commandExecutor;
+            _mediator = mediator;
             _queryExecutor = queryExecutor;
         }
 
         [HttpPost]
-        public async Task<CommandExecutionResult> CreateDistributor([FromBody] CreateDistributorCommand command) =>
-            await _commandExecutor.Execute(command);
+        public async Task<CommandExecutionResult> CreateDistributor([FromBody] CreateDistributorCommand request) =>
+            await _mediator.Send(request);
 
         [HttpGet]
         public async Task<QueryExecutionResult<GetDistributorsQueryResult>> GetDistributors([FromQuery] GetDistributorsQuery query) =>
           await _queryExecutor.Execute<GetDistributorsQuery, GetDistributorsQueryResult>(query);
-        
+
     }
 }

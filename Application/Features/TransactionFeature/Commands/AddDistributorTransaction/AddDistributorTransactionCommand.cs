@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
+using Utility;
 
-namespace Application.TransactionFeature.Commands.AddDistributorTransaction
+namespace Application.Features.TransactionFeature.Commands.AddDistributorTransaction
 {
-    public class DistributorTransactionRequest
+    public class AddDistributorTransactionCommand : IRequest<CommandExecutionResult>
     {
         public int DistributorId { get; set; }
         public DateTime SaleDate { get; set; }

@@ -19,7 +19,7 @@ namespace Infrastructure.Repositories
                 _ApplicationDbContext.Set<Product>().Add(product);
                 _ApplicationDbContext.SaveChanges();
 
-                return new CommandExecutionResult() { ResultId = "3" };
+                return new CommandExecutionResult() { Success = true };
 
             }
             catch (Exception ex)

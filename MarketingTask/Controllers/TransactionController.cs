@@ -1,5 +1,6 @@
-﻿using Application.Shared;
-using Application.TransactionFeature.Commands.AddDistributorTransaction;
+﻿using Application.Features.TransactionFeature.Commands.AddDistributorTransaction;
+using Application.Shared;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Utility;
 
@@ -9,18 +10,18 @@ namespace MarketingTask.Controllers
     [Route("[controller]/[action]")]
     public class TransactionController
     {
-        private readonly ICommandExecutor _commandExecutor;
+        private readonly IMediator _mediator;
         private readonly IQueryExecutor _queryExecutor;
         public TransactionController(
-            ICommandExecutor commandExecutor,
+            IMediator mediator,
             IQueryExecutor queryExecutor)
         {
-            _commandExecutor = commandExecutor;
+            _mediator = mediator;
             _queryExecutor = queryExecutor;
         }
 
         [HttpPost]
-        public async Task<CommandExecutionResult> AddDistributorTransaction([FromBody] AddDistributorTransactionCommand command) =>
-            await _commandExecutor.Execute(command); 
+        public async Task<CommandExecutionResult> AddDistributorTransaction([FromBody] AddDistributorTransactionCommand request) =>
+            await _mediator.Send(request);
     }
 }

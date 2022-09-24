@@ -1,5 +1,6 @@
-﻿using Application.ProductFeature.Commands.CreateProduct;
+﻿using Application.Features.ProductFeature.Commands.CreateProduct;
 using Application.Shared;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Utility;
 
@@ -9,18 +10,18 @@ namespace MarketingTask.Controllers
     [Route("[controller]/[action]")]
     public class ProductController : ControllerBase
     {
-        private readonly ICommandExecutor _commandExecutor;
+        private readonly IMediator _mediator;
         private readonly IQueryExecutor _queryExecutor;
         public ProductController(
-            ICommandExecutor commandExecutor,
+            IMediator mediator,
             IQueryExecutor queryExecutor)
         {
-            _commandExecutor = commandExecutor;
+            _mediator = mediator;
             _queryExecutor = queryExecutor;
         }
 
         [HttpPost]
         public async Task<CommandExecutionResult> CreateProduct([FromBody] CreateProductCommand command) =>
-            await _commandExecutor.Execute(command);
+            await _mediator.Send(command);
     }
 }

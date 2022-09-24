@@ -1,14 +1,9 @@
 ﻿using Application.Shared;
 using Domain.Aggregates.DistributorAggregate;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Utility;
 
-namespace Application.DistributorFeature.DistributorQueries
+namespace Application.Features.DistributorFeature.DistributorQueries
 {
     public class GetDistributorsQuery : Query<GetDistributorsQueryResult>
     {
