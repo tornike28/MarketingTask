@@ -9,15 +9,17 @@ namespace Infrastructure.Db.Configurations
     {
         public void Configure(EntityTypeBuilder<Distributor> builder)
         {
-            builder.Ignore(x => x.ContactInformation);
-            builder.Property(x => x.ContactInformation).HasJsonConversion();
+            builder.OwnsOne(x => x.Address, navigationBuilder => { });
 
-            builder.Ignore(x => x.IdInformation);
-            builder.Property(x => x.IdInformation).HasJsonConversion();
+            builder.OwnsOne(x => x.ContactInformation, navigationBuilder => { });
 
-            builder.Ignore(x => x.Address);
-            builder.Property(x => x.Address).HasJsonConversion();
+            builder.OwnsOne(x => x.IdInformation, navigationBuilder => { });
 
+            builder.Property(x => x.Recomendations).HasJsonConversion();
+
+            builder.HasIndex(x => x.FirstName);
+
+            builder.HasIndex(x => x.LastName);
         }
     }
 }

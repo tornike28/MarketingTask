@@ -29,5 +29,9 @@ namespace MarketingTask.Controllers
         public async Task<QueryExecutionResult<GetDistributorsQueryResult>> GetDistributors([FromQuery] GetDistributorsQuery query) =>
           await _queryExecutor.Execute<GetDistributorsQuery, GetDistributorsQueryResult>(query);
 
+        [HttpGet]
+        public async Task<QueryExecutionResult<CalculationQueryResult>> Calculation([FromQuery] CalculationQuery query) =>
+        await _queryExecutor.Execute<CalculationQuery, CalculationQueryResult>(query);
+
     }
 }

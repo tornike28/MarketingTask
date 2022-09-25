@@ -19,7 +19,6 @@ namespace Infrastructure.Repositories
         }
 
 
-
         public async Task Save(TAggregateRoot aggregateRoot)
         {
             if (aggregateRoot.Id <= 0)

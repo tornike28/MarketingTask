@@ -23,6 +23,5 @@ namespace Domain.Aggregates.ProductAggregate
         public string Name { get; private set; }
         public string Code { get; private set; }
         public decimal Price { get; private set; }
-        public virtual ICollection<Transaction> Transactions { get; private set; }
     }
 }

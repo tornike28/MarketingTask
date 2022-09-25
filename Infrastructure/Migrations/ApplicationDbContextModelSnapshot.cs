@@ -30,16 +30,8 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("ContactInformation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("CreateDate")
                         .HasColumnType("datetimeoffset");
@@ -49,14 +41,13 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.Property<string>("IdInformation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("HierarchyLevel")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImagePath")
                         .IsRequired()
@@ -70,12 +61,24 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Recomendations")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Recommendedby")
                         .HasColumnType("int");
 
+                    b.Property<string>("SecondaryId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("FirstName");
+
+                    b.HasIndex("LastName");
 
                     b.ToTable("Distributor");
                 });
@@ -111,6 +114,10 @@ namespace Infrastructure.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("SecondaryId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Product");
@@ -133,6 +140,10 @@ namespace Infrastructure.Migrations
                     b.Property<int>("DistributorId")
                         .HasColumnType("int");
 
+                    b.Property<string>("DistributorSecondaryId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -142,54 +153,114 @@ namespace Infrastructure.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("ProductPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("ProductPrice")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("SaleDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("SecondaryId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
+
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DistributorId");
-
-                    b.HasIndex("ProductId");
+                    b.HasIndex("SaleDate");
 
                     b.ToTable("Transaction");
                 });
 
-            modelBuilder.Entity("Domain.Aggregates.TransactionAggregate.Transaction", b =>
-                {
-                    b.HasOne("Domain.Aggregates.DistributorAggregate.Distributor", "Distributor")
-                        .WithMany("Transactions")
-                        .HasForeignKey("DistributorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Aggregates.ProductAggregate.Product", "Product")
-                        .WithMany("Transactions")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Distributor");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Domain.Aggregates.DistributorAggregate.Distributor", b =>
                 {
-                    b.Navigation("Transactions");
-                });
+                    b.OwnsOne("Domain.Aggregates.DistributorAggregate.ValueObjects.Address", "Address", b1 =>
+                        {
+                            b1.Property<int>("DistributorId")
+                                .HasColumnType("int");
 
-            modelBuilder.Entity("Domain.Aggregates.ProductAggregate.Product", b =>
-                {
-                    b.Navigation("Transactions");
+                            b1.Property<int>("AddressType")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("FullAddress")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("DistributorId");
+
+                            b1.ToTable("Distributor");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DistributorId");
+                        });
+
+                    b.OwnsOne("Domain.Aggregates.DistributorAggregate.ValueObjects.ContactInformation", "ContactInformation", b1 =>
+                        {
+                            b1.Property<int>("DistributorId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("ContactType")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("CotactInformation")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("DistributorId");
+
+                            b1.ToTable("Distributor");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DistributorId");
+                        });
+
+                    b.OwnsOne("Domain.Aggregates.DistributorAggregate.ValueObjects.IdInformation", "IdInformation", b1 =>
+                        {
+                            b1.Property<int>("DistributorId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("DocumentNumber")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("DocumentSeria")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("DocumentType")
+                                .HasColumnType("int");
+
+                            b1.Property<DateTime>("ExpirationDate")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("IdNumber")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Organization")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime>("ReleaseDate")
+                                .HasColumnType("datetime2");
+
+                            b1.HasKey("DistributorId");
+
+                            b1.ToTable("Distributor");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DistributorId");
+                        });
+
+                    b.Navigation("Address")
+                        .IsRequired();
+
+                    b.Navigation("ContactInformation")
+                        .IsRequired();
+
+                    b.Navigation("IdInformation")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

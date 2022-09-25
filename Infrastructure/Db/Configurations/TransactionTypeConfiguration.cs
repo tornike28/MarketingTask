@@ -8,11 +8,7 @@ namespace Infrastructure.Db.Configurations
     {
         public void Configure(EntityTypeBuilder<Transaction> builder)
         {
-            builder.HasOne(d => d.Distributor)
-                   .WithMany(x => x.Transactions);
-
-            builder.HasOne(d => d.Product)
-                   .WithMany(x => x.Transactions);
+            builder.HasIndex(x => x.SaleDate);
         }
     }
 }

@@ -6,7 +6,7 @@ using Utility;
 
 namespace Infrastructure.Repositories
 {
-    public class TransactionRepository : BaseRepository<ApplicationDbContext,Transaction>, ITransactionRepository
+    public class TransactionRepository : BaseRepository<ApplicationDbContext, Transaction>, ITransactionRepository
     {
         public TransactionRepository(ApplicationDbContext context, IMediator mediator) : base(context, mediator)
         {
@@ -16,16 +16,14 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                _ApplicationDbContext.Set<Transaction>().Add(transaction);
-                _ApplicationDbContext.SaveChanges();
+                await Save(transaction);
 
-                return new CommandExecutionResult() { ResultId = "3" };
+                return new CommandExecutionResult() { Success = true };
 
             }
             catch (Exception ex)
             {
-
-                throw;
+                return new CommandExecutionResult() { Success = false, ErrorMessage = ex.Message };
             }
         }
     }

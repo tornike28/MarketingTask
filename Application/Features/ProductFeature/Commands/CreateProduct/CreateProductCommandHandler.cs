@@ -1,11 +1,6 @@
 ﻿using Application.Shared;
 using Domain.Aggregates.ProductAggregate;
 using Domain.Aggregates.ProductAggregate.IRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Utility;
 
 namespace Application.Features.ProductFeature.Commands.CreateProduct

@@ -4,11 +4,18 @@ namespace Domain.Aggregates.DistributorAggregate.Events
 {
     public class CreateDistributorEvent : INotification
     {
-        //public CreateCountryEvent(string countryName)
-        //{
-        //    CountryName = countryName;
-        //}
+        public CreateDistributorEvent
+            (int recommendedby,
+            string secondaryId,
+            int? recomendatorId)
+        {
+            Recommendedby = recommendedby;
+            SecondaryId = secondaryId;
+            RecomendatorId = recomendatorId;
+        }
 
-        //public string CountryName { get; }
+        public int Recommendedby { get; }
+        public string SecondaryId { get; }
+        public int? RecomendatorId { get; }
     }
 }

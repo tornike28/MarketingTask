@@ -14,10 +14,17 @@ namespace Infrastructure.Repositories
 
         public async Task<CommandExecutionResult> CreateDistributor(Distributor distributor)
         {
+            try
+            {
+                await Save(distributor);
 
-            await Save(distributor);
+                return new CommandExecutionResult() { Success = true };
 
-            return new CommandExecutionResult() { Success = true };
+            }
+            catch (Exception ex)
+            {
+                return new CommandExecutionResult() { Success = false, ErrorMessage = ex.Message };
+            }
         }
     }
 }

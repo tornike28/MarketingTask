@@ -9,6 +9,5 @@
         public long? ListCount { get; set; }
         public ErrorCode ErrorCode { get; set; }
 
-        public int Code = 200;
     }
 }

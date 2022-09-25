@@ -1,10 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Extensions.DependencyInjection;
 using Utility;
 
 namespace Application.Shared
@@ -22,12 +17,6 @@ namespace Application.Shared
         }
         public abstract Task<CommandExecutionResult> Handle(TResult request, CancellationToken cancellationToken);
 
-        //public async Task Save<TAggregate>(TAggregate aggregate, IRepository<TAggregate> repository) where TAggregate : AggregateRoot
-        //{
-        //    await repository.Save(aggregate);
-        //    await UnitOfWork.SaveChangesAsync();
-        //}
-
         protected Task<CommandExecutionResult> Fail(params string[] errorMessages)
         {
             var result = new CommandExecutionResult
@@ -35,14 +24,14 @@ namespace Application.Shared
                 Success = false
             };
 
-            //if (errorMessages.IsNotNull())
-            //{
-            //    result.Errors = errorMessages.Select(x => new Error
-            //    {
-            //        Code = 0,
-            //        Message = x
-            //    });
-            //}
+            if (errorMessages != null)
+            {
+                result.Errors = errorMessages.Select(x => new Error
+                {
+                    Code = 0,
+                    Message = x
+                });
+            }
 
             return Task.FromResult(result);
         }
@@ -54,10 +43,10 @@ namespace Application.Shared
                 Success = false
             };
 
-            //if (error.IsNotNull())
-            //{
-            //    result.Errors = new List<Error> { error };
-            //}
+            if (error != null)
+            {
+                result.Errors = new List<Error> { error };
+            }
 
             return Task.FromResult(result);
         }

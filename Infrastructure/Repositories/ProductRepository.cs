@@ -16,16 +16,14 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                _ApplicationDbContext.Set<Product>().Add(product);
-                _ApplicationDbContext.SaveChanges();
+               await Save(product);
 
                 return new CommandExecutionResult() { Success = true };
 
             }
             catch (Exception ex)
             {
-
-                throw;
+                return new CommandExecutionResult() { Success = false, ErrorMessage = ex.Message };
             }
         }
     }

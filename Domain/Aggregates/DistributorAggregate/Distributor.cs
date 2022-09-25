@@ -20,8 +20,7 @@ namespace Domain.Aggregates.DistributorAggregate
             string imagePath,
             IdInformation idInformation,
             ContactInformation contactInformation,
-            Address address,
-            int? recommendedby
+            Address address
             )
         {
             FirstName = firstName;
@@ -32,11 +31,7 @@ namespace Domain.Aggregates.DistributorAggregate
             IdInformation = idInformation;
             ContactInformation = contactInformation;
             Address = address;
-            Recommendedby = recommendedby;
-
-            Raise(new CreateDistributorEvent());
         }
-
 
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
@@ -46,7 +41,28 @@ namespace Domain.Aggregates.DistributorAggregate
         public IdInformation IdInformation { get; private set; }
         public ContactInformation ContactInformation { get; private set; }
         public Address Address { get; private set; }
+        public int HierarchyLevel { get; private set; }
         public int? Recommendedby { get; private set; }
-        public virtual ICollection<Transaction> Transactions { get; private set; }
+
+        public List<Recomendation> Recomendations = new List<Recomendation>();
+
+        public void SetMemberBy(int recommendedby, int? hierarchyLevel, int? recomendatorId)
+        {
+            if (hierarchyLevel == null)
+                HierarchyLevel = 1;
+            else
+            {
+                HierarchyLevel = hierarchyLevel.Value + 1;
+            }
+
+            Recommendedby = recommendedby;
+
+            Raise(new CreateDistributorEvent(recommendedby, this.SecondaryId,  recomendatorId));
+        }
+
+        public void AddRecomendator(Recomendation recomendation)
+        {
+            Recomendations.Add(recomendation);
+        }
     }
 }

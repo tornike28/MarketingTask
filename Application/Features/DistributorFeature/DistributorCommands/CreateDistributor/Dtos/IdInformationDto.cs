@@ -14,7 +14,6 @@ namespace Application.Features.DistributorFeature.DistributorCommands.CreateDist
         public string? Organization { get; set; }
 
 
-
         public IdInformation ToDomainModel()
         {
             return new IdInformation(DocumentType,

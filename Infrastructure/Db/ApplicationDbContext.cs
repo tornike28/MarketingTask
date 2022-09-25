@@ -2,12 +2,6 @@
 using Infrastructure.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Db
 {
@@ -15,10 +9,8 @@ namespace Infrastructure.Db
     {
         private IDbContextTransaction _currentTransaction;
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
-             IConfiguration configuration) : base(options)
-        {
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,7 +21,6 @@ namespace Infrastructure.Db
             builder.ApplyConfiguration(new ProductTypeConfiguration());
 
         }
-
 
         public async Task BeginTransactionAsync(CancellationToken cancellationToken)
         {

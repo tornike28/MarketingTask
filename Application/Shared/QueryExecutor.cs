@@ -1,5 +1,4 @@
-﻿//using FluentValidation.Attributes;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
 using Infrastructure.Db;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
@@ -11,19 +10,13 @@ namespace Application.Shared
     {
         private readonly ApplicationDbContext _appContext;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IConfiguration _configuration;
-        //private readonly IHttpContextAccessor _httpContextAccessor;
 
 
         public QueryExecutor(IServiceProvider serviceProvider,
-            IConfiguration configuration,
-            ApplicationDbContext appContext
-           /* IHttpContextAccessor httpContextAccessor*/)
+            ApplicationDbContext appContext)
         {
             _serviceProvider = serviceProvider;
-            _configuration = configuration;
             _appContext = appContext;
-            //_httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<QueryExecutionResult<TResult>> Execute<TQuery, TResult>(TQuery query)
@@ -32,20 +25,6 @@ namespace Application.Shared
         {
             try
             {
-                var validationResult = Validate(query);
-                if (!validationResult.IsValid)
-                {
-                    return new QueryExecutionResult<TResult>
-                    {
-                        Success = false,
-                        Errors = validationResult.Errors.Select(error => new Error
-                        {
-                            Message = error.ErrorMessage,
-                            Code = 0
-                        })
-                    };
-                }
-
                 query.Resolve(
                    _appContext,
                    _serviceProvider);
@@ -54,7 +33,6 @@ namespace Application.Shared
             }
             catch (Exception ex)
             {
-                //ExceptionLogger.Logger(_httpContextAccessor.HttpContext, _serviceProvider, ex);
                 return await Task.FromResult(new QueryExecutionResult<TResult>
                 {
                     Success = false,
@@ -63,24 +41,11 @@ namespace Application.Shared
                         new Error
                         {
                             Code = 0,
-                            Message = ex.ToString() // TEMP:
+                            Message = ex.ToString() 
                         }
                     }
                 });
             }
-
-        }
-        public ValidationResult Validate<T>(Query<T> execution) where T : class
-        {
-            //var validatorAttribute = execution.GetType().GetCustomAttribute<ValidatorAttribute>(true);
-            //if (validatorAttribute != null)
-            //{
-            //    var instance = (dynamic)Activator.CreateInstance(validatorAttribute.ValidatorType);
-            //    var modelState = instance.Validate((dynamic)execution);
-            //    return modelState;
-            //}
-
-            return new ValidationResult();
         }
     }
 }

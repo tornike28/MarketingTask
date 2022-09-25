@@ -2,9 +2,9 @@
 
 namespace Application.Features.TransactionFeature.Commands.AddDistributorTransaction
 {
-    public class AddDistributorTransactionCommandValidator : AbstractValidator<AddDistributorTransactionCommand>
+    public class AddTransactionCommandValidator : AbstractValidator<AddTransactionCommand>
     {
-        public AddDistributorTransactionCommandValidator()
+        public AddTransactionCommandValidator()
         {
             RuleFor(x => x.ProductPrice).NotEmpty().WithMessage("ProductPrice cann't be null");
             RuleFor(x => x.UnitPrice).NotEmpty().WithMessage("UnitPrice cann't be null");

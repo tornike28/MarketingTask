@@ -1,5 +1,4 @@
 ﻿using Application.Features.ProductFeature.Commands.CreateProduct;
-using Application.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Utility;
@@ -11,13 +10,10 @@ namespace MarketingTask.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IQueryExecutor _queryExecutor;
         public ProductController(
-            IMediator mediator,
-            IQueryExecutor queryExecutor)
+            IMediator mediator)
         {
             _mediator = mediator;
-            _queryExecutor = queryExecutor;
         }
 
         [HttpPost]
